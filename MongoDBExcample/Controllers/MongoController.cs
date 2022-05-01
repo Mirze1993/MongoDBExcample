@@ -5,22 +5,30 @@ namespace MongoDBExcample.Controllers
 {
     [Route("[controller]/[action]")]
     [ApiController]
+    [ReqLog]
     public class MongoController : ControllerBase
     {
         Repository repository;
 
         public MongoController(IMongoDatabase mongoDatabase)
         {
-            repository=new Repository(mongoDatabase);
+            repository = new Repository(mongoDatabase);
         }
 
         [HttpGet]
+        //[Telemetry(TelemetryEvent.Req)]
+
+        //[ReqLogFilter]
         public Category GetById(string id)
         {
             return repository.getCategory(id);   
         }
 
+
         [HttpPost]
+        [Telemetry(TelemetryEvent.Req)]
+        //[ReqLog]
+        //[ReqLogFilter]
         public void AddCategory(Category category)
         {
             repository.AddCategory(category);
